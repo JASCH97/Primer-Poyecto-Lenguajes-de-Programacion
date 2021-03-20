@@ -11,7 +11,6 @@
 
  int  PLAYER = 1;
  int  COMPUTER = 2;
-//int turns = 0;
 int currentPlayer = 1;
 bool gameOver = false;
 const char *PIECES = "XO";
@@ -50,7 +49,7 @@ void printBoard(char *board){
 
 
 int takeTurn(char *board, const char *PIECES){
-   //int row, col = 3;
+   
    int row, col = 0;
    
    printf("Eliga la columna en la que quiere jugar: ");
@@ -75,7 +74,7 @@ int takeTurn(char *board, const char *PIECES){
 }
 
 int takeTurn2(char *board, const char *equis){
-   //int row, col = 3;
+   
    int row, col = 0;
    
    printf("Eliga la columna en la que quiere jugar: ");
@@ -172,37 +171,37 @@ int main() {
 	memset(board, ' ', BOARD_ROWS * BOARD_COLS);
 	int turns = 0;
 
-	printBoard(board); // print initial board
-	while (!gameOver && !done) { // while no game over state
+	printBoard(board); // printeando la board
+	while (!gameOver && !done) { // mientras no se cumpla gameover y el done
 
 
 		if (turns == BOARD_COLS * BOARD_ROWS){
 			gameOver = true;
 
 		}
-		if (currentPlayer == COMPUTER) { // AI move
+		if (currentPlayer == COMPUTER) { // AI jugada
 			takeTurn(board, PIECES);
 
 		}
-		else if (currentPlayer == PLAYER) { // player move
+		else if (currentPlayer == PLAYER) { // jugada del jugador
 			takeTurn(board, equis);
 		}
 
 		done = checkWin(board);
 		
 		currentPlayer = (currentPlayer == 1) ? 2 : 1; // switch player
-		turns++; // iterate number of turns
+		turns++; // aumentar los turnos
 		
-		printBoard(board); // print board after successful move
+		printBoard(board); // printeando la board despues de una jugada
 	}
 
 	printBoard(board);
 
-	if (turns == BOARD_COLS * BOARD_ROWS) { // if draw condition
+	if (turns == BOARD_COLS * BOARD_ROWS) { // condicion de empate
 		printf("Empate\n");
 		return 0;
 	}
-	else { // otherwise, someone won
+	else { // sino alguien gano
 		printf("ALguien gano\n");
 		return 0;
 	}
