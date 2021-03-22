@@ -5,7 +5,7 @@
     Lenguajes de Programacion
     Semestre I 2021
 
-    Prof. Samanta Ramijan Carmiol
+    Prof. Samanta Ramijan 
     
     Estudiantes
     Tomas Acuna                     2018112856
@@ -13,7 +13,7 @@
 
     Primer proyecto: Programacion Imperativa                 
     --------------------------------------------------------
-    
+
 */
 
 //se importan las librerias necesarias
@@ -24,7 +24,7 @@
 #include <time.h>
 
 
-//se definen las variables constantes
+//se definen las variables constantes y globales
 #define BOARD_ROWS 7
 #define BOARD_COLS 7
 
@@ -71,7 +71,12 @@ void printBoard(char *board){
 int takeTurn(char *board, const char *PIECES){
    
    int row, col = 0;
-   
+   if(PIECES == "X"){
+      printf("Turno del Jugador 1, fichas 'X'\n");  
+   }
+   if(PIECES == "O"){
+      printf("Turno del Jugador 2 (maquina), fichas 'O'\n");
+   }
    printf("Elija la columna en la que quiere jugar: ");
    while(1){ 
       if(1 != scanf("%d", &col) || col < 1 || col > 7 ){
@@ -84,25 +89,32 @@ int takeTurn(char *board, const char *PIECES){
 
    printf("%d",col);
    if(col == 1 && board[0] != ' '){
-      printf("No puede ingresar mas fichas en esta columna\n\n");
+      printf("\n\nNo puede ingresar mas fichas en esta columna\n\n");
+      takeTurn(board,PIECES);
    }
    if(col == 2 && board[1] != ' '){
       printf("No puede ingresar mas fichas en esta columna\n\n");
+      takeTurn(board,PIECES);
    }
    if(col == 3 && board[2] != ' '){
-      printf("No puede ingresar mas fichas en esta columna\n\n");
+      printf("\n\nNo puede ingresar mas fichas en esta columna\n\n");
+      takeTurn(board,PIECES);
    }
    if(col == 4 && board[3] != ' '){
-      printf("No puede ingresar mas fichas en esta columna\n\n");
+      printf("\n\nNo puede ingresar mas fichas en esta columna\n\n");
+      takeTurn(board,PIECES);
    }
    if(col == 5 && board[4] != ' '){
-      printf("No puede ingresar mas fichas en esta columna\n\n");
+      printf("\n\nNo puede ingresar mas fichas en esta columna\n\n");
+      takeTurn(board,PIECES);
    }
    if(col == 6 && board[5] != ' '){
-      printf("No puede ingresar mas fichas en esta columna\n\n");
+      printf("\n\nNo puede ingresar mas fichas en esta columna\n\n");
+      takeTurn(board,PIECES);
    }
    if(col == 7 && board[6] != ' '){
-      printf("No puede ingresar mas fichas en esta columna\n\n");
+      printf("\n\nNo puede ingresar mas fichas en esta columna\n\n");
+      takeTurn(board,PIECES);
    }
    else{
       col--;  
@@ -247,57 +259,138 @@ int randomTurn(){
 
 
 int main() {
+   //se crean las variables de inicio necesarias
    srand(time(NULL));
    int r;
    r = randomTurn();
-
-	int done = 0;
-	char board[BOARD_ROWS * BOARD_COLS];
-	memset(board, ' ', BOARD_ROWS * BOARD_COLS);
-	int turns = 0;
-
-	printBoard(board); // printeando la board
-	while (!gameOver && !done) { // mientras no se cumpla gameover y el done
+   int opcion;
+   int done = 0;
+   char board[BOARD_ROWS * BOARD_COLS];
+   memset(board, ' ', BOARD_ROWS * BOARD_COLS);
+   int turns = 0;
 
 
-		if (turns == BOARD_COLS * BOARD_ROWS){
-			gameOver = true;
+   printf("\nBienvenido al menu del Juego 'Connect Four'\n");
+   printf("Seleccione una de las siguientes opciones y luego presione 'Enter'\n");
+   printf("1.Iniciar Partida\n2.Salir\n\n--> ");
+   scanf("%d",&opcion);
 
-		}
-		if (currentPlayer == COMPUTER) { // AI jugada
-			takeTurn(board, circulo);
+	switch(opcion){
 
-		}
-		else if (currentPlayer == PLAYER) { // jugada del jugador
-			takeTurn(board, equis);
-		}
+      case 1: 
+         printf("Elijiendo cual jugador empieza...\n");
 
-		done = checkWin(board);
-		
-		currentPlayer = (currentPlayer == 1) ? 2 : 1; // switch player
-		turns++; // aumentar los turnos
-		
-		printBoard(board); // printeando la board despues de una jugada
-	}
+         if(r == 0){
+            printf("\nInicia el jugador 1, le corresponden las fichas 'X'\n");
+            printf("Al jugador jugador 2 (maquina) le corresponden las fichas 'O'\n\n");
 
-	printBoard(board);
+            printBoard(board); // printeando la board
+            while (!gameOver && !done) { // mientras no se cumpla gameover y el done
 
-	if (turns == BOARD_COLS * BOARD_ROWS) { // condicion de empate
-		printf("Empate\n");
-		return 0;
-	}
-	else { // sino alguien gano
-      if(done == 1){
-         printf("Ha ganado el jugador con las fichas X!\n");
-         return 0;
-      }
-      else{
-         printf("Ha ganado la maquina con las fichas O!\n");
-         return 0;
-      }
-      
-		
-	}
+
+               if (turns == 48){
+                  gameOver = true;
+
+               }
+               if (currentPlayer == COMPUTER) { // AI jugada
+                  takeTurn(board, circulo);
+
+               }
+               else if (currentPlayer == PLAYER) { // jugada del jugador
+                  takeTurn(board, equis);
+               }
+
+               done = checkWin(board);
+               
+               currentPlayer = (currentPlayer == 1) ? 2 : 1; // switch player
+               
+               turns++; // aumentar los turnos
+               printf("El turno actual es: %d",turns);
+               
+               printBoard(board); // printeando la board despues de una jugada
+            }
+
+            printBoard(board);
+
+            if (turns == 49) { // condicion de empate
+               printf("Empate\n");
+               return 0;
+            }
+            else { // sino alguien gano
+               if(done == 1){
+                  printf("Ha ganado el jugador con las fichas X!\n");
+                  return 0;
+               }
+               else{
+                  printf("Ha ganado la maquina con las fichas O!\n");
+                  return 0;
+               }
+               
+               
+            }
+                     
+         }
+         else{
+            currentPlayer = 2;
+            printf("\nInicia el jugador 2(maquina), le corresponden las fichas 'O'\n");
+            printf("Al jugador 1 le corresponden las fichas 'X'\n\n");
+
+            printBoard(board); // printeando la board
+            while (!gameOver && !done) { // mientras no se cumpla gameover y el done
+
+
+               if (turns == 48){
+                  gameOver = true;
+
+               }
+               if (currentPlayer == COMPUTER) { // AI jugada
+                  takeTurn(board, circulo);
+
+               }
+               else if (currentPlayer == PLAYER) { // jugada del jugador
+                  takeTurn(board, equis);
+               }
+
+               done = checkWin(board);
+               
+               currentPlayer = (currentPlayer == 1) ? 2 : 1; // switch player
+               
+               turns++; // aumentar los turnos
+               
+               printBoard(board); // printeando la board despues de una jugada
+            }
+
+            printBoard(board);
+
+            if (turns == 49) { // condicion de empate
+               printf("No quedan mas columnas por llenar! Es un Empate!\n");
+               return 0;
+            }
+            else { // sino alguien gano
+               if(done == 1){
+                  printf("Ha ganado el jugador con las fichas X!\n");
+                  return 0;
+               }
+               else{
+                  printf("Ha ganado la maquina con las fichas O!\n");
+                  return 0;
+               }
+               
+               
+            }
+                     
+         }
+         
+         break;
+
+
+      case 2:
+         break;
+
+
+      default: printf("Opcion incorrecta,intente nuevamente.\n");
+
+   }
 
 
 
