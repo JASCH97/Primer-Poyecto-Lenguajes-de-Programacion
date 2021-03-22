@@ -1,43 +1,62 @@
+/*  --------------------------------------------------------
+    Instituto Tecnologico de Costa Rica
+    Escuela de Ingenieria en Computacion
+    Sede Interuniversitaria de Alajuela
+    Lenguajes de Programacion
+    Semestre I 2021
 
+    Prof. Samanta Ramijan Carmiol
+    
+    Estudiantes
+    Tomas Acuna                     2018112856
+    Joan Sanchez Chinchilla         2015123867  
+
+    Primer proyecto: Programacion Imperativa                 
+    --------------------------------------------------------
+    
+*/
+
+//se importan las librerias necesarias
 #include <stdio.h> 
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 
-
+//se definen las variables constantes
 #define BOARD_ROWS 7
 #define BOARD_COLS 7
 
- int  PLAYER = 1;
- int  COMPUTER = 2;
+
+int  PLAYER = 1;
+int  COMPUTER = 2;
 int currentPlayer = 1;
 bool gameOver = false;
-const char *PIECES = "XO";
+const char *circulo = "O";
+const char *equis = "X";
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//esta funcion imprime el tablero del juego y las fichas de colores
 void printBoard(char *board){
-   int row, col;
+   int row, col;                          //filas y columnas
 
-   
    puts("\n    ****Connect Four****\n");
    for(row = 0; row < BOARD_ROWS; row++){
       for(col = 0; col < BOARD_COLS; col++){
-         printf("| %c ",  board[BOARD_COLS * row + col]);
+         //printf("\033[0;31m",);
+         printf("| ");
+         if(board[BOARD_COLS * row + col] == 'X'){
+            printf("\033[0;31m");                        //codigo para imprimir color rojo
+            printf("%c ",  (board[BOARD_COLS * row + col]));
+            printf("\033[0m");                           //codigo para imprimir normal nuevamente
+         }  
+         else{
+            printf("\033[0;32m");                        //codigo para imprimir verde
+            printf("%c ",  (board[BOARD_COLS * row + col]));
+            printf("\033[0m");
+         }
       }
       puts("|");
       puts("-----------------------------");
@@ -48,11 +67,12 @@ void printBoard(char *board){
 }
 
 
+//esta funcion realiza la jugada en base al turno del jugador actual
 int takeTurn(char *board, const char *PIECES){
    
    int row, col = 0;
    
-   printf("Eliga la columna en la que quiere jugar: ");
+   printf("Elija la columna en la que quiere jugar: ");
    while(1){ 
       if(1 != scanf("%d", &col) || col < 1 || col > 7 ){
          while(getchar() != '\n');
@@ -61,23 +81,49 @@ int takeTurn(char *board, const char *PIECES){
          break;
       }
    }
-   col--;  
 
-   for(row = BOARD_ROWS - 1; row >= 0; row--){
-      if(board[BOARD_COLS * row + col] == ' '){
-         board[BOARD_COLS * row + col] = *PIECES;
-         return 1;
+   printf("%d",col);
+   if(col == 1 && board[0] != ' '){
+      printf("No puede ingresar mas fichas en esta columna\n\n");
+   }
+   if(col == 2 && board[1] != ' '){
+      printf("No puede ingresar mas fichas en esta columna\n\n");
+   }
+   if(col == 3 && board[2] != ' '){
+      printf("No puede ingresar mas fichas en esta columna\n\n");
+   }
+   if(col == 4 && board[3] != ' '){
+      printf("No puede ingresar mas fichas en esta columna\n\n");
+   }
+   if(col == 5 && board[4] != ' '){
+      printf("No puede ingresar mas fichas en esta columna\n\n");
+   }
+   if(col == 6 && board[5] != ' '){
+      printf("No puede ingresar mas fichas en esta columna\n\n");
+   }
+   if(col == 7 && board[6] != ' '){
+      printf("No puede ingresar mas fichas en esta columna\n\n");
+   }
+   else{
+      col--;  
+
+      for(row = BOARD_ROWS - 1; row >= 0; row--){
+         if(board[BOARD_COLS * row + col] == ' '){
+            board[BOARD_COLS * row + col] = *PIECES;
+            return 1;
+         }
       }
    }
    return 0;
 
 }
 
-int takeTurn2(char *board, const char *equis){
+//***
+int takeTurn2(char *board, const char *equis){  //no se esta utilizando esta funcion. Verificar.
    
    int row, col = 0;
    
-   printf("Eliga la columna en la que quiere jugar: ");
+   printf("Elija la columna en la que quiere jugar: ");
    while(1){ 
       if(1 != scanf("%d", &col) || col < 1 || col > 7 ){
          while(getchar() != '\n');
@@ -100,14 +146,13 @@ int takeTurn2(char *board, const char *equis){
 }
 
 
-int checkWin(char *board){
-    return (horizontalCheck(board) || verticalCheck(board) || diagonalCheck(board));
-
-}
+//Esta funcion valida si 4 fichas son iguales
 int checkFour(char *board, int a, int b, int c, int d){
-    return (board[a] == board[b] && board[b] == board[c] && board[c] == board[d] && board[a] != ' ');
+   return (board[a] == board[b] && board[b] == board[c] && board[c] == board[d] && board[a] != ' ');
 
 }
+
+//Esta funcion verifica si existen 4 fichas iguales en posicion horizontal
 int horizontalCheck(char *board){
     int row, col, idx;
     const int WIDTH = 1;
@@ -116,13 +161,20 @@ int horizontalCheck(char *board){
        for(col = 0; col < BOARD_COLS - 3; col++){
           idx = BOARD_COLS * row + col;
           if(checkFour(board, idx, idx + WIDTH, idx + WIDTH * 2, idx + WIDTH * 3)){
-             return 1;
+             if(board[idx] == 88){ //88 es el valor ascii de X
+                return 1;
+             }
+             else{
+               return 2;
+             }
           }
        }
     }
     return 0;
 
 }
+
+//Esta funcion verifica si existen 4 fichas iguales en posicion vertical
 int verticalCheck(char *board){
     int row, col, idx;
     const int HEIGHT = 7;
@@ -131,13 +183,20 @@ int verticalCheck(char *board){
        for(col = 0; col < BOARD_COLS; col++){
           idx = BOARD_COLS * row + col;
           if(checkFour(board, idx, idx + HEIGHT, idx + HEIGHT * 2, idx + HEIGHT * 3)){
-              return 1;
+              if(board[idx] == 88){  //88 es el valor ascii de X
+                return 1;
+             }
+             else{
+               return 2;
+             }
           }
        }
     }
     return 0;
 
 }
+
+//Esta funcion verifica si existen 4 fichas iguales en posicion diagonal
 int diagonalCheck(char *board){
    int row, col, idx, count = 0;
    const int DIAG_RGT = 6, DIAG_LFT = 8;
@@ -146,7 +205,12 @@ int diagonalCheck(char *board){
       for(col = 0; col < BOARD_COLS; col++){
          idx = BOARD_COLS * row + col;
          if(count <= 3 && checkFour(board, idx, idx + DIAG_LFT, idx + DIAG_LFT * 2, idx + DIAG_LFT * 3) || count >= 3 && checkFour(board, idx, idx + DIAG_RGT, idx + DIAG_RGT * 2, idx + DIAG_RGT * 3)){
-            return 1;
+            if(board[idx] == 88){  //88 es el valor ascii de X
+                return 1;
+             }
+             else{
+               return 2;
+             }
          }
          count++;
       }
@@ -156,17 +220,38 @@ int diagonalCheck(char *board){
 
 }
 
+//Esta funcion verifica si existe un ganador o no
+int checkWin(char *board){
+    if(horizontalCheck(board) != 0){
+       return horizontalCheck(board);
+    }
+    if(verticalCheck(board) != 0){
+       return verticalCheck(board);
+    }
+    if(diagonalCheck(board) != 0){
+       return diagonalCheck(board);
+    }
+    else{
+       return 0;
+    }
 
+}
 
+//Esta funcion devuelve un numero random entre 0 y 1
+int randomTurn(){
+   int i; 
+   i = (rand() % 2);
+   return i;
 
+}
 
 
 int main() {
-
+   srand(time(NULL));
+   int r;
+   r = randomTurn();
 
 	int done = 0;
-	const char *equis = "L";
-	const char *PIECES = "XO";
 	char board[BOARD_ROWS * BOARD_COLS];
 	memset(board, ' ', BOARD_ROWS * BOARD_COLS);
 	int turns = 0;
@@ -180,7 +265,7 @@ int main() {
 
 		}
 		if (currentPlayer == COMPUTER) { // AI jugada
-			takeTurn(board, PIECES);
+			takeTurn(board, circulo);
 
 		}
 		else if (currentPlayer == PLAYER) { // jugada del jugador
@@ -202,8 +287,16 @@ int main() {
 		return 0;
 	}
 	else { // sino alguien gano
-		printf("ALguien gano\n");
-		return 0;
+      if(done == 1){
+         printf("Ha ganado el jugador con las fichas X!\n");
+         return 0;
+      }
+      else{
+         printf("Ha ganado la maquina con las fichas O!\n");
+         return 0;
+      }
+      
+		
 	}
 
 
@@ -212,5 +305,4 @@ int main() {
 
 	return 0;
 }
-
 
