@@ -33,6 +33,8 @@ Seguidamente escribir:
 ## ./conecta4.out
 
 Videos Explicativos:
+
+
 Tomas Acuna: https://www.youtube.com/watch?v=gtzQpGySkWM&ab_channel=TomasA
 
 Joan Sanchez Chinchilla: https://youtu.be/sfsfQVs7iUI
