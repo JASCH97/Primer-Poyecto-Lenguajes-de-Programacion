@@ -23,3 +23,16 @@ movimientos. Para lograr esta inteligencia artificial, se deberá implementar
 el algoritmo llamado Minimax,algoritmo de backtracking utilizado en teoría
 de juegos que usa árboles n-arios para tomar decisiones de movimientos en 
 juegos determinísticos. 
+
+
+##
+El siguiente repositorio incluye el código Fuente para un Conecta 4 entre dos jugadores. Para compilarlo escribir en la consola:
+
+## gcc conectaProyecto.c -o conecta4.out
+Seguidamente escribir:
+## ./conecta4.out
+
+Videos Explicativos:
+Tomas Acuna: https://www.youtube.com/watch?v=gtzQpGySkWM&ab_channel=TomasA
+
+Joan Sanchez Chinchilla: https://youtu.be/sfsfQVs7iUI
