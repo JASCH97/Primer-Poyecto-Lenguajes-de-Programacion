@@ -26,7 +26,7 @@ juegos determinísticos.
 
 
 ##
-El siguiente repositorio incluye el código Fuente para un Conecta 4 entre dos jugadores. Para compilarlo escribir en la consola:
+El siguiente repositorio incluye el código Fuente para un Conecta 4 entre dos jugadores. Para compilarlo, escribir en la consola:
 
 ## gcc conectaProyecto.c -o conecta4.out
 Seguidamente escribir:
